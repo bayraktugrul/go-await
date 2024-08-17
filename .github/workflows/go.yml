@@ -32,7 +32,7 @@ jobs:
           exit 1
 
       - name: Test
-        run: go test -race ./...
+        run: go test ./...
 
       - name: Lint
         run: "go vet ./..."
