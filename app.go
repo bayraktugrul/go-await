@@ -59,7 +59,7 @@ func (a *app) Await(waitFunc func() bool) error {
 			if finish {
 				return nil
 			}
-			remaining = a.timeout - time.Now().Sub(start)
+			remaining = a.timeout - time.Since(start)
 			if remaining <= 0 {
 				return fmt.Errorf("condition does not match in %s timeout time", a.timeout)
 			}
