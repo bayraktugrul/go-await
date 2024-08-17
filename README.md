@@ -30,7 +30,7 @@ if err != nil {}
 producer.publishMessage(orderCreatedMessage)
 
 // waits for up to 2 seconds until repo.Exist returns true, using a polling interval of 500ms
-err := await.New().AtMost(2 * time.Second).PollInterval(500 * time.Millisecond).Await(func() bool {
+err := await.New().PollInterval(500 * time.Millisecond).AtMost(2 * time.Second).Await(func() bool {
     return repo.Exist(id)
 })
 

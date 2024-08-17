@@ -14,7 +14,7 @@ func main() {
 		condition = true
 	}()
 
-	err := await.New().AtMost(10 * time.Second).PollInterval(200 * time.Millisecond).Await(func() bool {
+	err := await.New().PollInterval(200 * time.Millisecond).AtMost(10 * time.Second).Await(func() bool {
 		return condition
 	})
 
