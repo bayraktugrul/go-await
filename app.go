@@ -59,7 +59,7 @@ func (a *app) Await(waitFunc func() bool) error {
 
 	go until(waitFunc, result)
 
-	iter := 0
+	iter := 1
 	for {
 		select {
 		case finish := <-result:
