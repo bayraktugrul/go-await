@@ -1,4 +1,4 @@
-# go-await [![](https://img.shields.io/badge/License-MIT-yellow.svg)](https://img.shields.io/badge/License-MIT-yellow.svg)
+# go-await  [![](https://github.com/bayraktugrul/go-await/workflows/build/badge.svg)](https://github.com/bayraktugrul/go-await/actions) [![](https://img.shields.io/badge/License-MIT-yellow.svg)](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 go-await lets you use to synchronize async operations. It is inspired from popular Java library 'awaitility [https://github.com/awaitility/awaitility]'
 

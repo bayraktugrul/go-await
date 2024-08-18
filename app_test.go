@@ -3,6 +3,7 @@ package await_test
 import (
 	"errors"
 	"github.com/bayraktugrul/go-await"
+	"github.com/bayraktugrul/go-await/strategy/poll"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -78,7 +79,6 @@ func Test_App_Error(t *testing.T) {
 
 func Test_App_HappyPath(t *testing.T) {
 	//given
-
 	t.Run("it should wait 1 second task with 2 seconds timeout and 100ms poll intervals", func(t *testing.T) {
 
 		condition := false
@@ -90,6 +90,24 @@ func Test_App_HappyPath(t *testing.T) {
 		err := await.New().AtMost(2 * time.Second).PollInterval(100 * time.Millisecond).Await(func() bool {
 			return condition
 		})
+
+		assert.NoError(t, err)
+	})
+
+	t.Run("it should wait 1 seconds task with 2s timeout and 100ms poll intervals with double poll strategy", func(t *testing.T) {
+
+		condition := false
+		go func() {
+			time.Sleep(1 * time.Second)
+			condition = true
+		}()
+
+		err := await.New().PollStrategy(poll.Double).
+			PollInterval(100 * time.Millisecond).
+			AtMost(2 * time.Second).
+			Await(func() bool {
+				return condition
+			})
 
 		assert.NoError(t, err)
 	})

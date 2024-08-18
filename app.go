@@ -2,29 +2,30 @@ package await
 
 import (
 	"fmt"
+	"github.com/bayraktugrul/go-await/strategy/poll"
 	"time"
 )
 
-const (
-	DefaultTimeout  = 1 * time.Second
-	DefaultInterval = 100 * time.Millisecond
-)
-
 type app struct {
-	timeout  time.Duration
-	interval time.Duration
+	timeout        time.Duration
+	interval       time.Duration
+	pollStrategy   poll.Strategy
+	pollStrategies map[poll.Strategy]func(int, time.Duration) time.Duration
 }
 
 type App interface {
 	AtMost(timeout time.Duration) App
 	PollInterval(interval time.Duration) App
+	PollStrategy(pollStrategy poll.Strategy) App
 	Await(waitFunc func() bool) error
 }
 
 func New() App {
 	return &app{
-		timeout:  DefaultTimeout,
-		interval: DefaultInterval,
+		timeout:        DefaultTimeout,
+		interval:       DefaultInterval,
+		pollStrategy:   DefaultPollStrategy,
+		pollStrategies: poll.Strategies(),
 	}
 }
 
@@ -38,11 +39,16 @@ func (a *app) PollInterval(interval time.Duration) App {
 	return a
 }
 
+func (a *app) PollStrategy(pollStrategy poll.Strategy) App {
+	a.pollStrategy = pollStrategy
+	return a
+}
+
 func (a *app) Await(waitFunc func() bool) error {
 	if waitFunc == nil {
 		return fmt.Errorf("function can not be nil")
 	}
-	err := a.validateDuration()
+	err := a.validate()
 	if err != nil {
 		return err
 	}
@@ -53,6 +59,7 @@ func (a *app) Await(waitFunc func() bool) error {
 
 	go until(waitFunc, result)
 
+	iter := 0
 	for {
 		select {
 		case finish := <-result:
@@ -68,7 +75,8 @@ func (a *app) Await(waitFunc func() bool) error {
 			return fmt.Errorf("condition does not match in %s timeout time", a.timeout)
 		}
 
-		time.Sleep(a.interval)
+		time.Sleep(a.pollStrategies[a.pollStrategy](iter, a.interval))
+		iter++
 	}
 }
 
@@ -76,7 +84,10 @@ func until(until func() bool, result chan bool) {
 	result <- until()
 }
 
-func (a *app) validateDuration() error {
+func (a *app) validate() error {
+	if _, ok := a.pollStrategies[a.pollStrategy]; !ok {
+		return fmt.Errorf("poll strategy is not valid. got: %s", a.pollStrategy)
+	}
 	if a.interval <= 0 {
 		return fmt.Errorf("poll interval must be greater than zero. internal: %s", a.interval)
 	}
