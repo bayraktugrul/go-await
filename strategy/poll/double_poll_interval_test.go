@@ -1,7 +1,6 @@
-package poll_test
+package poll
 
 import (
-	"github.com/bayraktugrul/go-await/strategy/poll"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -14,7 +13,7 @@ func Test_DoubleInterval(t *testing.T) {
 		interval := 100 * time.Millisecond
 
 		//when
-		result := poll.DoublePollInterval(iteration, interval)
+		result := doublePollInterval(iteration, interval)
 
 		//then
 		assert.Equal(t, 800*time.Millisecond, result)

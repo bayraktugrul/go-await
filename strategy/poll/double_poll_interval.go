@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// DoublePollInterval calculates the poll interval for a given iteration
+// doublePollInterval calculates the poll interval for a given iteration
 // using an exponential backoff strategy. The interval is doubled with each iteration,
 // starting from the initial interval value provided.
 //
@@ -18,6 +18,6 @@ import (
 //	Step 3: 400ms * 2 = 800ms
 //
 // Result: 800ms
-func DoublePollInterval(iteration int, interval time.Duration) time.Duration {
+func doublePollInterval(iteration int, interval time.Duration) time.Duration {
 	return utils.MultiplyDuration(iteration, interval)
 }

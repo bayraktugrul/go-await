@@ -2,7 +2,7 @@ package poll
 
 import "time"
 
-// FixedPollInterval is a poll interval strategy that consistently returns the same fixed interval,
+// fixedPollInterval is a poll interval strategy that consistently returns the same fixed interval,
 // regardless of the iteration count. This strategy ensures that the polling frequency remains constant
 // throughout all iterations, with no backoff or variation.
 //
@@ -15,6 +15,6 @@ import "time"
 //	Iteration N: 100ms
 //
 // Result: The interval remains fixed at 100ms for every iteration.
-func FixedPollInterval(iteration int, interval time.Duration) time.Duration {
+func fixedPollInterval(iteration int, interval time.Duration) time.Duration {
 	return interval
 }
