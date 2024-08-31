@@ -1,4 +1,4 @@
-# go-await [![go-doc][doc-img]][doc] [![][workflow-badge]][workflow-actions] [![][license-badge]][license]
+# go-await [![GoDoc][doc-img]][doc] [![][workflow-badge]][workflow-actions] [![Release][release-badge]][release] [![][license-badge]][license]
 
 go-await lets you use to synchronize async operations. It is inspired from popular Java library 'awaitility [https://github.com/awaitility/awaitility]'
 
@@ -66,7 +66,6 @@ if err != nil {}
 ```
 
 ## Credits
-
 * [Tuğrul Bayrak](https://github.com/bayraktugrul)
 
 [doc-img]: https://godoc.org/github.com/bayraktugrul/go-await?status.svg
@@ -77,3 +76,6 @@ if err != nil {}
 
 [license]:https://github.com/bayraktugrul/go-await/blob/main/LICENSE
 [license-badge]:https://img.shields.io/badge/License-MIT-blue.svg
+
+[release]: https://github.com/bayraktugrul/go-await/releases
+[release-badge]: https://img.shields.io/github/v/release/bayraktugrul/go-await.svg
